@@ -1,2 +1,5 @@
 .idea
 src/key
+
+# Python environement
+venv
