@@ -1,14 +1,36 @@
-import RPI_Sasdie_Lib
+try:
+    from RPI_Sasdie_Lib import DataStream, dataUnit
 
-d = RPI_Sasdie_Lib.DataStream()
-buffer = "Numéro d’échantillon;PM25\n"
+except ImportError:
+    from fake_sasdie import DataStream, export_to_csv
 
-for i in range(10):
-    data = d.lectureDonnéesCourante()
-    # La version de python est tellement veille qu'elle ne support pas les f-string
-    # Le RPI utilise python 3.5.3 alors que le support de cette version (patch de sécurité)
-    # à été arrêté il y a plus de 2 ans...
 
-    buffer += "{d.count};{d.pm25}\n".format(d=data)
+if not getattr(DataStream, 'fake', None):
+    # patch sasdie
+    DataStream.read = DataStream.lectureDonnéesCourante
 
-d.ecritureDuFichierCSV(buffer)
+    from functools import partial
+
+    export_to_csv = partial(DataStream.ecritureDuFichierCSV, type('', (), {}))
+    dataUnit.id = property(lambda self: self.count)
+
+
+CSV_HEADER = "Numéro d'échantillon;PM25\n"
+
+
+d = DataStream()
+
+result = []
+latest_id = 0
+
+while len(result) <= 10:
+    data = d.read()
+
+    if data.id != latest_id:
+        latest_id = data.id
+
+        # python 3.5 :<
+        result.append("{a};{b}".format(a=data.id, b=data.pm25))
+
+
+export_to_csv(CSV_HEADER + "\n".join(result))
