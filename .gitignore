@@ -3,3 +3,7 @@ src/key
 
 # Python environement
 venv
+
+# Packaging
+*.egg-info
+
