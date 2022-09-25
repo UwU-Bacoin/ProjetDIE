@@ -1,13 +1,11 @@
 from __future__ import annotations
 
 import random
-
-import time
 from dataclasses import dataclass
 from typing import Optional
 
-
 export_catch = []
+is_initialized = False
 
 
 def export_to_csv(content: str):
@@ -42,6 +40,39 @@ class DataStream:
 class DataUnit:
     id: int
     pm25: float
+
+
+class Sasdie:
+
+    def __init__(self):
+        self.publish_content = None
+
+        self.connected = False
+        self.key = 0
+
+    def connect(self):
+        self.connected = True
+        return True
+
+    def get_key(self):
+        self.key = 1
+        return 1
+
+    def publish_webpage(self, page_content):
+        self.publish_content = page_content
+
+
+class API(Sasdie):
+
+    def __init__(self, email, password):
+        super().__init__()
+        self.email = email
+        self.password = password
+
+
+def init():
+    global is_initialized
+    is_initialized = True
 
 
 __all__ = (

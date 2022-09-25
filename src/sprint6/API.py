@@ -1,4 +1,24 @@
-import sasdie
+try:
+    import sasdie
+
+    class API(sasdie.Sasdie):
+
+        def __init__(self, email, student_id):
+            super().__init__()
+            self.setLogin(email)
+            self.setPasswd(student_id)
+
+        get_key = sasdie.Sasdie.macle
+        publish_webpage = sasdie.Sasdie.publierpage_html
+
+
+    sasdie.API = API
+
+
+except ImportError:
+    import fake_sasdie as sasdie
+
+
 import os
 
 PAGE_TEMPLATE = """
@@ -22,24 +42,24 @@ PAGE_TEMPLATE = """
 
 sasdie.init()
 
-# les identifiants sont stocké dans des variables d'environement
+# les identifiants sont stockés dans des variables d'environement
 
 EMAIL = os.environ.get('EMAIL')
 STUDENT_ID = os.environ.get('ID')
 
 
 def main():
-    c = sasdie.Sasdie()
+    c = sasdie.API(EMAIL, STUDENT_ID)
 
-    c.setLogin(EMAIL)
-    c.setPasswd(STUDENT_ID)
-
-    state = c.connect()
-    if not state:
+    if not c.connect():
+        print("Couldn't connect to the api.")
         return
 
-    key = c.macle()
-    c.publierpage_html(PAGE_TEMPLATE.format(key=key))
+    if not (key := c.get_key()):
+        print("Error while retrieving the key.")
+        return
+
+    c.publish_webpage(PAGE_TEMPLATE.format(key=key))
 
 
 if __name__ == '__main__':
