@@ -1,9 +1,13 @@
 .idea
 src/key
 
+# Coverage
+.coverage
+coverage.xml
+htmlcov
+
 # Python environement
 venv
 
 # Packaging
 *.egg-info
-
