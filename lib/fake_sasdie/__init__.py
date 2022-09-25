@@ -46,8 +46,13 @@ class _Sasdie:
         return 1
 
     @classmethod
-    def publish_webpage(cls, page_content):
+    def publish_webpage(cls, page_content, start_server=True):
         cls.published_content = page_content
+
+        if not start_server:
+            return
+
+        _start_web_preview(page_content)
 
 
 class API(_Sasdie):
@@ -92,6 +97,22 @@ def export_to_csv(content: str):
 def init():
     global is_initialized
     is_initialized = True
+
+
+def _start_web_preview(homepage):
+    from http.server import BaseHTTPRequestHandler, HTTPServer
+
+    class Server(BaseHTTPRequestHandler):
+        def do_GET(self):
+            self.send_response(200)
+            self.send_header("Content-type", "text/html")
+            self.end_headers()
+
+            self.wfile.write(bytes(homepage, 'utf8'))
+
+    web_server = HTTPServer(('localhost', 8080), Server)
+    print("Server started http://localhost:8080")
+    web_server.serve_forever()
 
 
 __all__ = (

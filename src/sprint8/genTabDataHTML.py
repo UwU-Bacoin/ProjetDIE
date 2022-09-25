@@ -27,6 +27,7 @@ PAGE_HEADER = """
 <!DOCTYPE html>
 <html lang='fr'>
 <head>
+  <meta charset="UTF-8">
   <title>Account Key</title>
 </head>
 <body>
@@ -81,7 +82,6 @@ def main():
     PAGE_HEADER += PAGE_FOOTER
 
     c.publish_webpage(PAGE_HEADER)
-    # print(c.published_content)
 
 
 if __name__ == '__main__':
