@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import random
 from dataclasses import dataclass
 from typing import Optional
@@ -63,7 +64,13 @@ class API(_Sasdie):
 
 
 def read_pollution_data():
-    with open('src/sprint7/data_pm25.csv') as f:
+    path = os.getcwd().split('/')
+
+    if 'src' in path:
+        path = path[:path.index('src')]
+
+    base_path = '/'.join(path)
+    with open(f'{base_path}/src/sprint7/data_pm25.csv') as f:
         return [
             line.split(';') for line in f.read().split('\n')
         ]
@@ -88,7 +95,9 @@ def init():
 
 
 __all__ = (
+    'API',
     'DataUnit',
     'DataStream',
-    'export_to_csv'
+    'export_to_csv',
+    'read_pollution_data'
 )
