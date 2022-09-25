@@ -3,7 +3,10 @@ from __future__ import annotations
 import os
 import random
 from dataclasses import dataclass
+from functools import partial
 from typing import Optional
+
+import folium as folium
 
 export_catch = []
 is_initialized = False
@@ -69,17 +72,26 @@ class API(_Sasdie):
         cls.student_id = password
 
 
-def read_pollution_data():
-    path = os.getcwd().split('/')
+def read_csv(partial_path, trim=False):
+    if trim:
+        path = os.getcwd().split('/')
 
-    if 'src' in path:
-        path = path[:path.index('src')]
+        if 'src' in path:
+            path = path[:path.index('src')]
 
-    base_path = '/'.join(path)
-    with open(f'{base_path}/src/sprint7/data_pm25.csv') as f:
+        base = '/'.join(path)
+    else:
+        base = ''
+
+    with open(f'{base}/{partial_path}') as f:
         return [
             line.split(';') for line in f.read().split('\n')
         ]
+
+
+read_gps_coords = partial(read_csv, 'tmp_territoires.csv')
+read_pollution_data_rpi = partial(read_csv, '/src/sprint7/data_pm25.csv', trim=True)
+read_pollution_data = read_csv
 
 
 def export_to_csv(content: str):
@@ -119,6 +131,33 @@ def _start_web_preview(homepage):
 
     except KeyboardInterrupt:
         web_server.server_close()
+
+
+class Map(folium.Map):
+
+    def __init__(self, **kwargs):
+        super().__init__(location=(48.116622, -1.638717), zoom_start=13)
+
+    def add_circle(self, longitude, latitude, diameter, label):
+
+        folium.Circle(
+            location=(latitude, longitude),
+            popup=label,
+            fill_color='#8aadf4',
+            radius=diameter,
+            weight=2,
+            color="#000"
+        ).add_to(self)
+
+    def add_marker(self, longitude, latitude, label):
+        folium.Marker(
+            location=(latitude, longitude),
+            fill_color='#8aadf4',
+            popup=label
+        ).add_to(self)
+
+    def render_html(self):
+        return self._repr_html_()
 
 
 __all__ = (
