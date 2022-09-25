@@ -80,7 +80,7 @@ def main():
         print("Couldn't connect to the api.")
         return
 
-    donnees = sasdie.read_pollution_data()
+    donnees = sasdie.read_pollution_data_rpi()
 
     if not donnees:
         print("Error while retrieving the data.")
