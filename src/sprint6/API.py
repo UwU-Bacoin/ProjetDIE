@@ -45,7 +45,7 @@ sasdie.init()
 # les identifiants sont stockés dans des variables d'environement
 
 EMAIL = os.environ.get('EMAIL')
-STUDENT_ID = os.environ.get('ID')
+STUDENT_ID = os.environ.get('STUDENT_ID')
 
 
 def main():

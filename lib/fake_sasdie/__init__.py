@@ -42,32 +42,37 @@ class DataUnit:
     pm25: float
 
 
-class Sasdie:
+class _Sasdie:
+    connected = False
+    published_content = None
+    key = 0
 
-    def __init__(self):
-        self.publish_content = None
-
-        self.connected = False
-        self.key = 0
-
-    def connect(self):
-        self.connected = True
+    @classmethod
+    def connect(cls):
+        cls.connected = True
         return True
 
-    def get_key(self):
-        self.key = 1
+    @classmethod
+    def get_key(cls):
+        cls.key = 1
         return 1
 
-    def publish_webpage(self, page_content):
-        self.publish_content = page_content
+    @classmethod
+    def publish_webpage(cls, page_content):
+        cls.published_content = page_content
 
 
-class API(Sasdie):
+class API(_Sasdie):
+    email = None
+    student_id = None
 
     def __init__(self, email, password):
-        super().__init__()
-        self.email = email
-        self.password = password
+        self._cls_set(email, password)
+
+    @classmethod
+    def _cls_set(cls, email, password):
+        cls.email = email
+        cls.student_id = password
 
 
 def init():
