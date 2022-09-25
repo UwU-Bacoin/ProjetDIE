@@ -1,5 +1,14 @@
+import os
+
+
 try:
     import sasdie
+
+except ImportError:
+    import fake_sasdie as sasdie
+
+
+if not sasdie.IS_REPLACEMENT:
 
     class API(sasdie.Sasdie):
 
@@ -14,12 +23,6 @@ try:
 
     sasdie.API = API
 
-
-except ImportError:
-    import fake_sasdie as sasdie
-
-
-import os
 
 PAGE_TEMPLATE = """
 <!DOCTYPE html>

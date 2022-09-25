@@ -7,6 +7,7 @@ from typing import Optional
 
 export_catch = []
 is_initialized = False
+IS_REPLACEMENT = True
 
 
 class DataStream:
@@ -112,7 +113,12 @@ def _start_web_preview(homepage):
 
     web_server = HTTPServer(('localhost', 8080), Server)
     print("Server started http://localhost:8080")
-    web_server.serve_forever()
+
+    try:
+        web_server.serve_forever()
+
+    except KeyboardInterrupt:
+        web_server.server_close()
 
 
 __all__ = (
@@ -120,5 +126,6 @@ __all__ = (
     'DataUnit',
     'DataStream',
     'export_to_csv',
-    'read_pollution_data'
+    'read_pollution_data',
+    'IS_REPLACEMENT'
 )

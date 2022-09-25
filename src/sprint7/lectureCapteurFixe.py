@@ -1,12 +1,12 @@
 try:
     from RPI_Sasdie_Lib import DataStream, dataUnit
+    IS_REPLACEMENT = True
 
 except ImportError:
-    from fake_sasdie import DataStream, export_to_csv
+    from fake_sasdie import DataStream, export_to_csv, IS_REPLACEMENT
 
 
-if not getattr(DataStream, 'fake', None):
-    # patch sasdie
+if not IS_REPLACEMENT:
     DataStream.read = DataStream.lectureDonnéesCourante
 
     from functools import partial
