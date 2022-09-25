@@ -79,11 +79,11 @@ def read_csv(partial_path, trim=False):
         if 'src' in path:
             path = path[:path.index('src')]
 
-        base = '/'.join(path)
+        base = '/'.join(path) + '/'
     else:
         base = ''
 
-    with open(f'{base}/{partial_path}') as f:
+    with open(f'{base}{partial_path}') as f:
         return [
             line.split(';') for line in f.read().split('\n')
         ]
@@ -135,11 +135,10 @@ def _start_web_preview(homepage):
 
 class Map(folium.Map):
 
-    def __init__(self, **kwargs):
+    def __init__(self):
         super().__init__(location=(48.116622, -1.638717), zoom_start=13)
 
     def add_circle(self, longitude, latitude, diameter, label):
-
         folium.Circle(
             location=(latitude, longitude),
             popup=label,
@@ -166,5 +165,6 @@ __all__ = (
     'DataStream',
     'export_to_csv',
     'read_pollution_data',
+    'Map',
     'IS_REPLACEMENT'
 )
