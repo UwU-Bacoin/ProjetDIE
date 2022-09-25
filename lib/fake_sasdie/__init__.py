@@ -8,19 +8,6 @@ export_catch = []
 is_initialized = False
 
 
-def export_to_csv(content: str):
-    """
-    Export a string to a csv file.
-    Meant for DataStream.écritureDuFichierCSV
-
-    :param content: str
-        the content to write within the csv.
-        It might follow the regex:
-    """
-    export_catch.append(content)
-    print('=>', content)
-
-
 class DataStream:
     __counter = 0
     __previous: Optional[DataUnit] = None
@@ -73,6 +60,26 @@ class API(_Sasdie):
     def _cls_set(cls, email, password):
         cls.email = email
         cls.student_id = password
+
+
+def read_pollution_data():
+    with open('src/sprint7/data_pm25.csv') as f:
+        return [
+            line.split(';') for line in f.read().split('\n')
+        ]
+
+
+def export_to_csv(content: str):
+    """
+    Export a string to a csv file.
+    Meant for DataStream.écritureDuFichierCSV
+
+    :param content: str
+        the content to write within the csv.
+        It might follow the regex:
+    """
+    export_catch.append(content)
+    print('=>', content)
 
 
 def init():
