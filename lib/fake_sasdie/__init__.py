@@ -113,6 +113,9 @@ def init():
 
 
 def _start_web_preview(homepage):
+    if os.environ.get('SASDIE_TEST', 'True'):
+        return
+
     from http.server import BaseHTTPRequestHandler, HTTPServer
 
     class Server(BaseHTTPRequestHandler):

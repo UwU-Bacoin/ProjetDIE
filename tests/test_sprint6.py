@@ -15,6 +15,7 @@ def test_add(monkeypatch):
 def test_api(monkeypatch):
     monkeypatch.setenv('EMAIL', 'email_test')
     monkeypatch.setenv('STUDENT_ID', '42')
+    monkeypatch.setenv('SASDIE_TEST', 'True')
 
     api = importlib.import_module('src.sprint6.API')
 
