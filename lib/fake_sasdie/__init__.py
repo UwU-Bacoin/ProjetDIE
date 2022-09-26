@@ -176,7 +176,7 @@ class Map(folium.Map):
             fill_color="#8aadf4",
             radius=diameter,
             weight=2,
-            color="#000",
+            color="#8aadf4",
         ).add_to(self)
 
     def add_marker(self, longitude, latitude, label):
