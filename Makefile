@@ -26,6 +26,9 @@ htmlcov: $(VBIN)/coverage coverage.xml
 	$(VBIN)/coverage html
 
 
+README.md: $(VBIN)/python
+	$(VBIN)/python scrap_advancement.py
+
 clean:
 	rm -rf htmlcov
 	rm -f .coverage coverage.xml
