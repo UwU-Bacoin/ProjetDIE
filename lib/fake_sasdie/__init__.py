@@ -40,6 +40,7 @@ class DataUnit:
 
 class _Sasdie:
     """Represent the core features of the sasdie class."""
+
     connected = False
     published_content = None
     key = 0
@@ -90,24 +91,22 @@ def read_csv(partial_path: str, trim=False) -> List[List[str]]:
         Whether to trim the given path to solve relative path issues.
     """
     if trim:
-        path = os.getcwd().split('/')
+        path = os.getcwd().split("/")
 
-        if 'src' in path:
-            path = path[:path.index('src')]
+        if "src" in path:
+            path = path[: path.index("src")]
 
-        base = '/'.join(path) + '/'
+        base = "/".join(path) + "/"
     else:
-        base = ''
+        base = ""
 
-    with open(f'{base}{partial_path}') as f:
-        return [
-            line.split(';') for line in f.read().split('\n')
-        ]
+    with open(f"{base}{partial_path}") as f:
+        return [line.split(";") for line in f.read().split("\n")]
 
 
 # Providing custom read function for sasdie feature equivalence
-read_gps_coords = partial(read_csv, 'tmp_territoires.csv')
-read_pollution_data_rpi = partial(read_csv, '/src/sprint7/data_pm25.csv', trim=True)
+read_gps_coords = partial(read_csv, "tmp_territoires.csv")
+read_pollution_data_rpi = partial(read_csv, "/src/sprint7/data_pm25.csv", trim=True)
 read_pollution_data = read_csv
 
 
@@ -121,7 +120,7 @@ def export_to_csv(content: str):
         It might follow the regex:
     """
     export_catch.append(content)
-    print('=>', content)
+    print("=>", content)
 
 
 def init():
@@ -138,7 +137,7 @@ def _start_web_preview(homepage: str):
         What to respond upon request.
 
     """
-    if os.environ.get('SASDIE_TEST', 'True'):
+    if os.environ.get("SASDIE_TEST", "True"):
         return
 
     from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -149,9 +148,9 @@ def _start_web_preview(homepage: str):
             self.send_header("Content-type", "text/html")
             self.end_headers()
 
-            self.wfile.write(bytes(homepage, 'utf8'))
+            self.wfile.write(bytes(homepage, "utf8"))
 
-    web_server = HTTPServer(('localhost', 8080), Server)
+    web_server = HTTPServer(("localhost", 8080), Server)
     print("Server started http://localhost:8080")
 
     try:
@@ -174,17 +173,15 @@ class Map(folium.Map):
         folium.Circle(
             location=(latitude, longitude),
             popup=label,
-            fill_color='#8aadf4',
+            fill_color="#8aadf4",
             radius=diameter,
             weight=2,
-            color="#000"
+            color="#000",
         ).add_to(self)
 
     def add_marker(self, longitude, latitude, label):
         folium.Marker(
-            location=(latitude, longitude),
-            fill_color='#8aadf4',
-            popup=label
+            location=(latitude, longitude), fill_color="#8aadf4", popup=label
         ).add_to(self)
 
     def render_html(self):
@@ -192,11 +189,11 @@ class Map(folium.Map):
 
 
 __all__ = (
-    'API',
-    'DataUnit',
-    'DataStream',
-    'export_to_csv',
-    'read_pollution_data',
-    'Map',
-    'IS_REPLACEMENT'
+    "API",
+    "DataUnit",
+    "DataStream",
+    "export_to_csv",
+    "read_pollution_data",
+    "Map",
+    "IS_REPLACEMENT",
 )

@@ -2,6 +2,7 @@ import os
 
 try:
     import sasdie
+
     # Lorsque que l'on importe la version originale de sasdie,
     # on signale l'utilisation de celle-ci
     IS_REPLACEMENT = False
@@ -10,6 +11,7 @@ except ImportError:
     # Si "sasdie" n'est pas trouvé, on importe la version locale
     # https://github.com/UwU-Bacoin/ProjetDIE/tree/main/lib/fake_sasdie
     import fake_sasdie as sasdie
+
     IS_REPLACEMENT = True
 
 
@@ -25,14 +27,12 @@ if not IS_REPLACEMENT:
     # on renomme la méthode "lireDonneesPollutionRPI" en anglais
     # et l'on retire son appartenance à la classe Sasdie.
     sasdie.read_pollution_data = partial(
-        sasdie.Sasdie.lireDonneesPollutionRPI,
-        sasdie.Sasdie()
+        sasdie.Sasdie.lireDonneesPollutionRPI, sasdie.Sasdie()
     )
 
     # On crée un wrapper autour de Sasdie pour rendre l'utilisation
     #  plus simple et intuitif (moins de méthodes)
     class API(sasdie.Sasdie):
-
         def __init__(self, email, student_id):
             super().__init__()
             self.setLogin(email)
@@ -40,7 +40,6 @@ if not IS_REPLACEMENT:
 
         # on renomme la méthode "publierpage_html" en anglais
         publish_webpage = sasdie.Sasdie.publierpage_html
-
 
     # On inject l'objet API dans le module sasdie
     sasdie.API = API
@@ -69,8 +68,8 @@ PAGE_TEMPLATE = """
 
 
 # On utilise les variables d'environement pour stocker les identifiants
-EMAIL = os.environ.get('EMAIL')
-STUDENT_ID = os.environ.get('STUDENT_ID')
+EMAIL = os.environ.get("EMAIL")
+STUDENT_ID = os.environ.get("STUDENT_ID")
 
 
 def main():
@@ -96,7 +95,7 @@ def main():
     </thead>
     """
 
-    tbody = '\n'.join(
+    tbody = "\n".join(
         f"""
         <tr>
             <td>{i[0]}</td>
@@ -109,5 +108,5 @@ def main():
     c.publish_webpage(PAGE_TEMPLATE.format(table_head=thead, table_body=tbody))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

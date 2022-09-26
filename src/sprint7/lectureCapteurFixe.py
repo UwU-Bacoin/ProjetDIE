@@ -1,5 +1,6 @@
 try:
     from RPI_Sasdie_Lib import DataStream
+
     IS_REPLACEMENT = False
 
 except ImportError:
@@ -12,7 +13,7 @@ if not IS_REPLACEMENT:
     from functools import partial
     from RPI_Sasdie_Lib import dataUnit
 
-    export_to_csv = partial(DataStream.ecritureDuFichierCSV, type('', (), {}))
+    export_to_csv = partial(DataStream.ecritureDuFichierCSV, type("", (), {}))
     dataUnit.id = property(lambda self: self.count)
 
 

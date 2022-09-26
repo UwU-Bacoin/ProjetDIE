@@ -1,11 +1,5 @@
-EXT = ' extension de chaîne '
-my_strings = [
-    "je ne",
-    "sais",
-    "pas",
-    "quoi",
-    "mettre..."
-]
+EXT = " extension de chaîne "
+my_strings = ["je ne", "sais", "pas", "quoi", "mettre..."]
 
 for i in range(5):
     my_strings[i] += EXT

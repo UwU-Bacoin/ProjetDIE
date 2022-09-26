@@ -2,12 +2,14 @@ import os
 
 try:
     import sasdie
+
     # Lorsque que l'on importe la version originale de sasdie,
     # on signale l'utilisation de celle-ci
     IS_REPLACEMENT = False
 
 except ImportError:
     import fake_sasdie as sasdie
+
     # Si "sasdie" n'est pas trouvé, on importe la version locale
     # https://github.com/UwU-Bacoin/ProjetDIE/tree/main/lib/fake_sasdie
     IS_REPLACEMENT = True
@@ -22,7 +24,6 @@ if not IS_REPLACEMENT:
     # On crée un wrapper autour de Sasdie pour rendre l'utilisation
     #  plus simple et intuitif (moins de méthodes)
     class API(sasdie.Sasdie):
-
         def __init__(self, email, student_id):
             super().__init__()
             self.setLogin(email)
@@ -30,7 +31,6 @@ if not IS_REPLACEMENT:
 
         # on renomme la méthode "publierpage_html" en anglais
         publish_webpage = sasdie.Sasdie.publierpage_html
-
 
     _s = sasdie.Sasdie()
 
@@ -45,8 +45,8 @@ if not IS_REPLACEMENT:
 
 
 # On utilise les variables d'environement pour stocker les identifiants
-EMAIL = os.environ.get('EMAIL')
-STUDENT_ID = os.environ.get('STUDENT_ID')
+EMAIL = os.environ.get("EMAIL")
+STUDENT_ID = os.environ.get("STUDENT_ID")
 
 
 def main():
@@ -75,5 +75,5 @@ def main():
     c.publish_webpage(my_map.render_html())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

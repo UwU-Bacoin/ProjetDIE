@@ -11,7 +11,6 @@ except ImportError:
 if not sasdie.IS_REPLACEMENT:
 
     class API(sasdie.Sasdie):
-
         def __init__(self, email, student_id):
             super().__init__()
             self.setLogin(email)
@@ -19,7 +18,6 @@ if not sasdie.IS_REPLACEMENT:
 
         get_key = sasdie.Sasdie.macle
         publish_webpage = sasdie.Sasdie.publierpage_html
-
 
     sasdie.API = API
 
@@ -47,8 +45,8 @@ sasdie.init()
 
 # les identifiants sont stockés dans des variables d'environement
 
-EMAIL = os.environ.get('EMAIL')
-STUDENT_ID = os.environ.get('STUDENT_ID')
+EMAIL = os.environ.get("EMAIL")
+STUDENT_ID = os.environ.get("STUDENT_ID")
 
 
 def main():
@@ -65,5 +63,5 @@ def main():
     c.publish_webpage(PAGE_TEMPLATE.format(key=key))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
