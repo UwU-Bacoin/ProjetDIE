@@ -137,7 +137,7 @@ def _start_web_preview(homepage: str):
         What to respond upon request.
 
     """
-    if os.environ.get("SASDIE_TEST", "True"):
+    if os.environ.get("SASDIE_TEST") == "True":
         return
 
     from http.server import BaseHTTPRequestHandler, HTTPServer
