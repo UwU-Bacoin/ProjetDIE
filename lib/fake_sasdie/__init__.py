@@ -1,25 +1,29 @@
+"""Replacement lib for sasdie meant to be used for local development and unit-testing."""
 from __future__ import annotations
 
 import os
 import random
 from dataclasses import dataclass
 from functools import partial
-from typing import Optional
+from typing import Optional, List
 
 import folium as folium
 
 export_catch = []
-is_initialized = False
+is_initialized = False  # used for sasdie.init() tests
 IS_REPLACEMENT = True
 
 
 class DataStream:
     __counter = 0
     __previous: Optional[DataUnit] = None
-    fake = True
+    fake = True  # used to ensure this is the random replacement of sasdie DataStream.
 
-    def read(self):
-        """Equivalent of lectureDonnéesCourante."""
+    def read(self) -> DataUnit:
+        """
+        Return a random float value expressed as a data unit.
+        Will sometimes return the value generated in the previous call.
+        """
         if random.random() < 0.4 and self.__previous is not None:
             return self.__previous
 
@@ -35,6 +39,7 @@ class DataUnit:
 
 
 class _Sasdie:
+    """Represent the core features of the sasdie class."""
     connected = False
     published_content = None
     key = 0
@@ -51,6 +56,7 @@ class _Sasdie:
 
     @classmethod
     def publish_webpage(cls, page_content, start_server=True):
+        """Produce a minimal httpserver to display the page content given."""
         cls.published_content = page_content
 
         if not start_server:
@@ -68,11 +74,21 @@ class API(_Sasdie):
 
     @classmethod
     def _cls_set(cls, email, password):
+        """Ensure the email and password to be set as class attributes."""
         cls.email = email
         cls.student_id = password
 
 
-def read_csv(partial_path, trim=False):
+def read_csv(partial_path: str, trim=False) -> List[List[str]]:
+    """
+    Read from a csv file without parse the data types.
+
+    :param partial_path: str
+        A partial relative path that may be prepended internally.
+
+    :param trim: bool
+        Whether to trim the given path to solve relative path issues.
+    """
     if trim:
         path = os.getcwd().split('/')
 
@@ -89,6 +105,7 @@ def read_csv(partial_path, trim=False):
         ]
 
 
+# Providing custom read function for sasdie feature equivalence
 read_gps_coords = partial(read_csv, 'tmp_territoires.csv')
 read_pollution_data_rpi = partial(read_csv, '/src/sprint7/data_pm25.csv', trim=True)
 read_pollution_data = read_csv
@@ -112,7 +129,15 @@ def init():
     is_initialized = True
 
 
-def _start_web_preview(homepage):
+def _start_web_preview(homepage: str):
+    """
+    Start a minimal read-only httpserver to see the given html string.
+    Will run until KeyInterrupt.
+
+    :param homepage: str
+        What to respond upon request.
+
+    """
     if os.environ.get('SASDIE_TEST', 'True'):
         return
 
@@ -137,6 +162,10 @@ def _start_web_preview(homepage):
 
 
 class Map(folium.Map):
+    """
+    Provides a Map object to replace the poorly
+    implemented sasdie.Sasdie.macarte system.
+    """
 
     def __init__(self):
         super().__init__(location=(48.116622, -1.638717), zoom_start=13)
