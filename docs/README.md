@@ -23,4 +23,4 @@ Solutions pour le projet DIE sur les particules fines.
 | lectureCapteurFixe.py     | sprint7    | non validé      |
 | data_pm25.csv             | sprint7    | validé          |
 | genTabDataHTML.py         | sprint8    | pas de fichier  |
-| carte.py                  | sprint9    | pas de fichier  |
+| carte.py                  | sprint9    | non validé      |
