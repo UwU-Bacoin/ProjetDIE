@@ -60,8 +60,9 @@ def main():
     donnees_geo = sasdie.read_gps_coords()
 
     my_map = sasdie.Map()
+    pol_sum = 0
 
-    for i in range(len(donnees_geo)):
+    for i in range(len(donnees_pol)):
         lon1 = float(donnees_pol[i][0])
         lon2 = float(donnees_pol[i][2])
         avg_lon = (lon1 + lon2) / 2
@@ -70,8 +71,15 @@ def main():
         lat2 = float(donnees_pol[i][3])
         avg_lat = (lat1 + lat2) / 2
 
-        my_map.add_marker(avg_lon, avg_lat, donnees_pol[i][1])
+        pol_sum += float(donnees_pol[i][6])
 
+        my_map.add_circle(avg_lon, avg_lat, 20, donnees_pol[i][6])
+
+    for i in range(1, len(donnees_geo)):
+        my_map.add_marker(donnees_geo[i][0], donnees_geo[i][1], "Bar/Restaurant")
+
+    pol_avg = str(pol_sum / len(donnees_pol))
+    my_map.add_circle("-1.6799103489184724", "48.111316865237306", 500, pol_avg)
     c.publish_webpage(my_map.render_html())
 
 
