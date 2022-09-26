@@ -20,7 +20,7 @@ Solutions pour le projet DIE sur les particules fines.
 | boucle.py                 | sprint6    | validé          |
 | liste.py                  | sprint6    | validé          |
 | API.py                    | sprint6    | validé          |
-| lectureCapteurFixe.py     | sprint7    | non validé      |
+| lectureCapteurFixe.py     | sprint7    | validé          |
 | data_pm25.csv             | sprint7    | validé          |
-| genTabDataHTML.py         | sprint8    | pas de fichier  |
-| carte.py                  | sprint9    | non validé      |
+| genTabDataHTML.py         | sprint8    | validé          |
+| carte.py                  | sprint9    | validé          |
