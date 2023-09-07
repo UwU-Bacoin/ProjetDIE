@@ -5,7 +5,7 @@ from typing import List
 import requests
 
 
-STUDENT_ID = 23111447
+STUDENT_ID =
 
 URL_BASE = (
     f"http://depot-l1miee.irisa.fr/informations/"
